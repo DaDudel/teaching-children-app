@@ -9,7 +9,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.amber,
+      color: MyColors().myAmber,
       child: Center(
         child: Column(
           children: [

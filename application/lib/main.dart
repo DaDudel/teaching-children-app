@@ -1,3 +1,4 @@
+import 'package:application/screens/finishScreen.dart';
 import 'package:application/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: MainScreen(),
+      home: FinishScreen(),
     );
   }
 }
