@@ -69,7 +69,8 @@ class _RankingScreenState extends State<RankingScreen> {
                             color: Colors.transparent,
                             textStyle: TextStyle(color: Colors.white),
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 16, 16, 16),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -119,24 +120,27 @@ class _RankingScreenState extends State<RankingScreen> {
                               ),
                             ],
                           ),
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return Card(
-                                child: ListTile(
-                                  onTap: () {},
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(scores[index].id.toString()),
-                                      Text(scores[index].userName),
-                                      Text(scores[index].score.toString()),
-                                    ],
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return Card(
+                                  child: ListTile(
+                                    onTap: () {},
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(scores[index].id.toString()),
+                                        Text(scores[index].userName),
+                                        Text(scores[index].score.toString()),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                // title: Text(scores[index].userName)),
-                              );
-                            },
+                                  // title: Text(scores[index].userName)),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
