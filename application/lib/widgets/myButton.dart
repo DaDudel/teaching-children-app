@@ -16,6 +16,7 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(Size(350, 20)),
           backgroundColor: MaterialStateProperty.all(MyColors().secondaryColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(

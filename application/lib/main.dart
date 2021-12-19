@@ -1,6 +1,8 @@
 import 'package:application/screens/finishScreen.dart';
+import 'package:application/screens/firstType.dart';
 import 'package:application/screens/mainScreen.dart';
 import 'package:application/screens/rankingScreen.dart';
+import 'package:application/screens/secondType.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: RankingScreen(),
+      home: SecondType(),
     );
   }
 }
