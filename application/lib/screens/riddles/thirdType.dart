@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:application/theming/myColors.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:application/widgets/myTextField.dart';
@@ -9,6 +11,9 @@ class ThirdType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Random random = new Random();
+    int randomNumber = random.nextInt(2);
+
     return Container(
       color: MyColors().myAmber,
       child: Column(
@@ -44,17 +49,31 @@ class ThirdType extends StatelessWidget {
           ),
           Row(
             children: [
-              Expanded(
-                child: Container(),
-              ),
-              MyButton(buttonText: 'DÓPA', onPressed: () => {}),
-              Expanded(
-                child: Container(),
-              ),
-              MyButton(buttonText: 'DUPA', onPressed: () => {}),
-              Expanded(
-                child: Container(),
-              ),
+              if (randomNumber == 0) ...[
+                Expanded(
+                  child: Container(),
+                ),
+                MyButton(buttonText: 'DÓPA', onPressed: () => {}),
+                Expanded(
+                  child: Container(),
+                ),
+                MyButton(buttonText: 'DUPA', onPressed: () => {}),
+                Expanded(
+                  child: Container(),
+                ),
+              ] else ...[
+                Expanded(
+                  child: Container(),
+                ),
+                MyButton(buttonText: 'DUPA', onPressed: () => {}),
+                Expanded(
+                  child: Container(),
+                ),
+                MyButton(buttonText: 'DÓPA', onPressed: () => {}),
+                Expanded(
+                  child: Container(),
+                ),
+              ]
             ],
           ),
           Expanded(
