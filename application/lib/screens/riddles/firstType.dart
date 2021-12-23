@@ -1,11 +1,15 @@
+import 'package:application/routes/approuter.gr.dart';
 import 'package:application/theming/myColors.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:application/widgets/myTextField.dart';
+import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FirstType extends StatelessWidget {
-  const FirstType({Key? key}) : super(key: key);
+  const FirstType({Key? key, this.riddleNumber = 1}) : super(key: key);
+
+  final int riddleNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class FirstType extends StatelessWidget {
             color: Colors.transparent,
             child: Container(
               padding: EdgeInsets.all(16),
-              child: Text('ZAGADKA #1',
+              child: Text('ZAGADKA #${riddleNumber.toString()}',
                   style: GoogleFonts.mcLaren(
                     fontSize: 64,
                   )),
@@ -49,7 +53,9 @@ class FirstType extends StatelessWidget {
           Expanded(
             child: Container(),
           ),
-          MyButton(buttonText: 'Dalej', onPressed: () => {}),
+          MyButton(
+              buttonText: 'Dalej',
+              onPressed: () => {navigateToRiddles(context, riddleNumber)}),
           Expanded(
             child: Container(),
           ),
@@ -57,4 +63,8 @@ class FirstType extends StatelessWidget {
       ),
     );
   }
+}
+
+void navigateToRiddles(BuildContext context, int riddle) {
+  context.router.push(FirstRiddle(riddleNumber: riddle + 1));
 }

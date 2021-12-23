@@ -1,3 +1,4 @@
+import 'package:application/routes/approuter.gr.dart';
 import 'package:application/screens/finishScreen.dart';
 import 'package:application/screens/riddles/firstType.dart';
 import 'package:application/screens/mainScreen.dart';
@@ -14,13 +15,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    // return MaterialApp(
+    //   title: 'Naucz się ortografii!',
+    //   theme: ThemeData(
+    //     primarySwatch: Colors.blue,
+    //   ),
+    //   //home: MyHomePage(title: 'Flutter Demo Home Page'),
+    //   home: MainScreen(),
+    // );
+    final _appRouter = AppRouter();
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Naucz się ortografii!',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: SecondType(),
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
     );
   }
 }
