@@ -1,13 +1,17 @@
 import 'dart:math';
 
+import 'package:application/routes/approuter.gr.dart';
 import 'package:application/theming/myColors.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:application/widgets/myTextField.dart';
+import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SecondType extends StatelessWidget {
-  const SecondType({Key? key}) : super(key: key);
+  const SecondType({Key? key, this.riddleNumber = 1}) : super(key: key);
+
+  final int riddleNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class SecondType extends StatelessWidget {
             color: Colors.transparent,
             child: Container(
               padding: EdgeInsets.all(16),
-              child: Text('ZAGADKA #2',
+              child: Text('ZAGADKA #${riddleNumber.toString()}',
                   style: GoogleFonts.mcLaren(
                     fontSize: 64,
                   )),
@@ -52,11 +56,16 @@ class SecondType extends StatelessWidget {
                 Expanded(
                   child: Container(),
                 ),
-                MyButton(buttonText: 'Ó', onPressed: () => {}),
+                MyButton(
+                    buttonText: 'Ó',
+                    onPressed: () => {navigateToFinish(context, riddleNumber)}),
                 Expanded(
                   child: Container(),
                 ),
-                MyButton(buttonText: 'U', onPressed: () => {}),
+                MyButton(
+                    buttonText: 'U',
+                    onPressed: () =>
+                        {navigateToRiddles(context, riddleNumber)}),
                 Expanded(
                   child: Container(),
                 ),
@@ -64,11 +73,16 @@ class SecondType extends StatelessWidget {
                 Expanded(
                   child: Container(),
                 ),
-                MyButton(buttonText: 'U', onPressed: () => {}),
+                MyButton(
+                    buttonText: 'U',
+                    onPressed: () =>
+                        {navigateToRiddles(context, riddleNumber)}),
                 Expanded(
                   child: Container(),
                 ),
-                MyButton(buttonText: 'Ó', onPressed: () => {}),
+                MyButton(
+                    buttonText: 'Ó',
+                    onPressed: () => {navigateToFinish(context, riddleNumber)}),
                 Expanded(
                   child: Container(),
                 ),
@@ -82,4 +96,30 @@ class SecondType extends StatelessWidget {
       ),
     );
   }
+}
+
+void navigateToRiddles(BuildContext context, int riddle) {
+  Random random = new Random();
+  int randomNumber = random.nextInt(3);
+  switch (randomNumber) {
+    case 0:
+      {
+        context.router.push(FirstRiddle(riddleNumber: riddle + 1));
+      }
+      break;
+    case 1:
+      {
+        context.router.push(SecondRiddle(riddleNumber: riddle + 1));
+      }
+      break;
+    case 2:
+      {
+        context.router.push(ThirdRiddle(riddleNumber: riddle + 1));
+      }
+      break;
+  }
+}
+
+void navigateToFinish(BuildContext context, int riddle) {
+  context.router.push(Finish(riddleNumber: riddle));
 }

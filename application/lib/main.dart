@@ -15,14 +15,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //   title: 'Naucz się ortografii!',
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.blue,
-    //   ),
-    //   //home: MyHomePage(title: 'Flutter Demo Home Page'),
-    //   home: MainScreen(),
-    // );
     final _appRouter = AppRouter();
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,

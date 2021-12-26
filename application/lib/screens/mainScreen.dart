@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:application/routes/approuter.gr.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
@@ -54,7 +56,25 @@ class MainScreen extends StatelessWidget {
 }
 
 void navigateToRiddles(BuildContext context) {
-  context.router.navigate(FirstRiddle(riddleNumber: 1));
+  Random random = new Random();
+  int randomNumber = random.nextInt(3);
+  switch (randomNumber) {
+    case 0:
+      {
+        context.router.navigate(FirstRiddle(riddleNumber: 1));
+      }
+      break;
+    case 1:
+      {
+        context.router.navigate(SecondRiddle(riddleNumber: 1));
+      }
+      break;
+    case 2:
+      {
+        context.router.navigate(ThirdRiddle(riddleNumber: 1));
+      }
+      break;
+  }
 }
 
 void navigateToRanking(BuildContext context) {

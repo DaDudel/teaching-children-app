@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:application/routes/approuter.gr.dart';
 import 'package:application/theming/myColors.dart';
 import 'package:application/widgets/myButton.dart';
@@ -66,5 +68,23 @@ class FirstType extends StatelessWidget {
 }
 
 void navigateToRiddles(BuildContext context, int riddle) {
-  context.router.push(FirstRiddle(riddleNumber: riddle + 1));
+  Random random = new Random();
+  int randomNumber = random.nextInt(3);
+  switch (randomNumber) {
+    case 0:
+      {
+        context.router.push(FirstRiddle(riddleNumber: riddle + 1));
+      }
+      break;
+    case 1:
+      {
+        context.router.push(SecondRiddle(riddleNumber: riddle + 1));
+      }
+      break;
+    case 2:
+      {
+        context.router.push(ThirdRiddle(riddleNumber: riddle + 1));
+      }
+      break;
+  }
 }
