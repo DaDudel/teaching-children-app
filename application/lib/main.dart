@@ -1,6 +1,8 @@
 import 'package:application/routes/approuter.gr.dart';
+import 'package:application/utils/wordProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -16,11 +18,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _appRouter = AppRouter();
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'Naucz się ortografii!',
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
+    return ChangeNotifierProvider(
+      create: (context) => WordProvider(),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'Naucz się ortografii!',
+        routerDelegate: _appRouter.delegate(),
+        routeInformationParser: _appRouter.defaultRouteParser(),
+      ),
     );
   }
 }

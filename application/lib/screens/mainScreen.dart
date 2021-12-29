@@ -6,6 +6,7 @@ import 'dart:typed_data';
 
 import 'package:application/routes/approuter.gr.dart';
 import 'package:application/utils/word.dart';
+import 'package:application/utils/wordProvider.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:dio/dio.dart';
@@ -19,6 +20,7 @@ import 'dart:async';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -28,10 +30,10 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
-  firebase_storage.Reference ref =
-      firebase_storage.FirebaseStorage.instance.ref('/slowka.csv');
+  // firebase_storage.FirebaseStorage storage =
+  //     firebase_storage.FirebaseStorage.instance;
+  // firebase_storage.Reference ref =
+  //     firebase_storage.FirebaseStorage.instance.ref('/slowka.csv');
 
   void downloadCSV() async {
     String downloadAdress =
@@ -50,8 +52,31 @@ class _MainScreenState extends State<MainScreen> {
     print(words2[0].riddle);
   }
 
+  Future<List<Word>> getTheList() async {
+    String downloadAdress =
+        'https://raw.githubusercontent.com/DaDudel/3d-labs/main/slowka.csv';
+    final response = await http.get(Uri.parse(downloadAdress));
+
+    List<Word> words2 = [];
+
+    response.body.split('\n').forEach((element) {
+      List<String> verse = element.split(';');
+      if (verse.length == 4) {
+        verse[3].replaceAll('\n', '');
+        verse[3].replaceAll(' ', '');
+        words2.add(Word(int.parse(verse[0]), verse[1], verse[2], verse[3]));
+      }
+    });
+
+    //print(words2[0].riddle);
+
+    return words2;
+  }
+
   @override
   Widget build(BuildContext context) {
+    WordProvider wordProvider = Provider.of<WordProvider>(context);
+
     return Container(
       color: MyColors().myAmber,
       child: Center(
@@ -74,7 +99,11 @@ class _MainScreenState extends State<MainScreen> {
                 padding: EdgeInsets.all(16.0),
                 child: MyButton(
                   buttonText: 'start',
-                  onPressed: () => {navigateToRiddles(context)},
+                  onPressed: () async {
+                    wordProvider.updateList(await getTheList());
+                    wordProvider.randomWord();
+                    navigateToRiddles(context);
+                  },
                 )),
             Container(
                 padding: EdgeInsets.all(16.0),
@@ -84,8 +113,7 @@ class _MainScreenState extends State<MainScreen> {
                 )),
             Container(
                 padding: EdgeInsets.all(16.0),
-                child: MyButton(
-                    buttonText: 'opcje', onPressed: () => {downloadCSV()})),
+                child: MyButton(buttonText: 'opcje', onPressed: () => {})),
             Expanded(
               child: Container(),
             ),

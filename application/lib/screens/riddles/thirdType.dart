@@ -2,11 +2,13 @@ import 'dart:math';
 
 import 'package:application/routes/approuter.gr.dart';
 import 'package:application/theming/myColors.dart';
+import 'package:application/utils/wordProvider.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:application/widgets/myTextField.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ThirdType extends StatelessWidget {
   const ThirdType({Key? key, this.riddleNumber = 1}) : super(key: key);
@@ -17,6 +19,13 @@ class ThirdType extends StatelessWidget {
   Widget build(BuildContext context) {
     Random random = new Random();
     int randomNumber = random.nextInt(2);
+    WordProvider wordProvider = Provider.of<WordProvider>(context);
+    String rightWord = wordProvider.chosenWord.riddle
+        .replaceAll('_', wordProvider.chosenWord.rightAnswer);
+    String wrongWord = wordProvider.chosenWord.riddle
+        .replaceAll('_', wordProvider.chosenWord.wrongAnswer);
+    wrongWord =
+        wrongWord.replaceAll(RegExp(r'[^A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]'), '');
 
     return Container(
       color: MyColors().myAmber,
@@ -58,15 +67,17 @@ class ThirdType extends StatelessWidget {
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: 'DÓPA',
+                    buttonText: '${wrongWord}',
                     onPressed: () => {navigateToFinish(context, riddleNumber)}),
                 Expanded(
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: 'DUPA',
-                    onPressed: () =>
-                        {navigateToRiddles(context, riddleNumber)}),
+                    buttonText: '${rightWord}',
+                    onPressed: () {
+                      wordProvider.randomWord();
+                      navigateToRiddles(context, riddleNumber);
+                    }),
                 Expanded(
                   child: Container(),
                 ),
@@ -75,14 +86,16 @@ class ThirdType extends StatelessWidget {
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: 'DUPA',
-                    onPressed: () =>
-                        {navigateToRiddles(context, riddleNumber)}),
+                    buttonText: '${rightWord}',
+                    onPressed: () {
+                      wordProvider.randomWord();
+                      navigateToRiddles(context, riddleNumber);
+                    }),
                 Expanded(
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: 'DÓPA',
+                    buttonText: '${wrongWord}',
                     onPressed: () => {navigateToFinish(context, riddleNumber)}),
                 Expanded(
                   child: Container(),

@@ -2,11 +2,13 @@ import 'dart:math';
 
 import 'package:application/routes/approuter.gr.dart';
 import 'package:application/theming/myColors.dart';
+import 'package:application/utils/wordProvider.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:application/widgets/myTextField.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class FirstType extends StatelessWidget {
   const FirstType({Key? key, this.riddleNumber = 1}) : super(key: key);
@@ -15,6 +17,8 @@ class FirstType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WordProvider wordProvider = Provider.of<WordProvider>(context);
+    String answer = '';
     return Container(
       color: MyColors().myAmber,
       child: Column(
@@ -36,7 +40,7 @@ class FirstType extends StatelessWidget {
             color: Colors.transparent,
             child: Container(
               padding: EdgeInsets.all(16),
-              child: Text('D_PA',
+              child: Text('${wordProvider.chosenWord.riddle}',
                   style: GoogleFonts.mcLaren(
                     fontSize: 48,
                   )),
@@ -49,7 +53,11 @@ class FirstType extends StatelessWidget {
             width: 500,
             child: Material(
               color: Colors.transparent,
-              child: MyTextField(),
+              child: MyTextField(
+                onChange: (text) {
+                  answer = text;
+                },
+              ),
             ),
           ),
           Expanded(
@@ -57,7 +65,20 @@ class FirstType extends StatelessWidget {
           ),
           MyButton(
               buttonText: 'Dalej',
-              onPressed: () => {navigateToRiddles(context, riddleNumber)}),
+              onPressed: () {
+                answer = answer.replaceAll(' ', '');
+                answer = answer.toUpperCase();
+                print(answer);
+                if (answer == wordProvider.chosenWord.rightAnswer ||
+                    answer ==
+                        wordProvider.chosenWord.riddle.replaceAll(
+                            '_', wordProvider.chosenWord.rightAnswer)) {
+                  wordProvider.randomWord();
+                  navigateToRiddles(context, riddleNumber);
+                } else {
+                  navigateToFinish(context, riddleNumber);
+                }
+              }),
           Expanded(
             child: Container(),
           ),
@@ -87,4 +108,8 @@ void navigateToRiddles(BuildContext context, int riddle) {
       }
       break;
   }
+}
+
+void navigateToFinish(BuildContext context, int riddle) {
+  context.router.push(Finish(riddleNumber: riddle));
 }

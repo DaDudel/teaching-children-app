@@ -2,11 +2,13 @@ import 'dart:math';
 
 import 'package:application/routes/approuter.gr.dart';
 import 'package:application/theming/myColors.dart';
+import 'package:application/utils/wordProvider.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:application/widgets/myTextField.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class SecondType extends StatelessWidget {
   const SecondType({Key? key, this.riddleNumber = 1}) : super(key: key);
@@ -15,6 +17,7 @@ class SecondType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WordProvider wordProvider = Provider.of<WordProvider>(context);
     Random random = new Random();
     int randomNumber = random.nextInt(2);
     return Container(
@@ -38,7 +41,7 @@ class SecondType extends StatelessWidget {
             color: Colors.transparent,
             child: Container(
               padding: EdgeInsets.all(16),
-              child: Text('D_PA',
+              child: Text('${wordProvider.chosenWord.riddle}',
                   style: GoogleFonts.mcLaren(
                     fontSize: 48,
                   )),
@@ -57,15 +60,17 @@ class SecondType extends StatelessWidget {
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: 'Ó',
+                    buttonText: '${wordProvider.chosenWord.wrongAnswer}',
                     onPressed: () => {navigateToFinish(context, riddleNumber)}),
                 Expanded(
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: 'U',
-                    onPressed: () =>
-                        {navigateToRiddles(context, riddleNumber)}),
+                    buttonText: '${wordProvider.chosenWord.rightAnswer}',
+                    onPressed: () {
+                      wordProvider.randomWord();
+                      navigateToRiddles(context, riddleNumber);
+                    }),
                 Expanded(
                   child: Container(),
                 ),
@@ -74,14 +79,16 @@ class SecondType extends StatelessWidget {
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: 'U',
-                    onPressed: () =>
-                        {navigateToRiddles(context, riddleNumber)}),
+                    buttonText: '${wordProvider.chosenWord.rightAnswer}',
+                    onPressed: () {
+                      wordProvider.randomWord();
+                      navigateToRiddles(context, riddleNumber);
+                    }),
                 Expanded(
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: 'Ó',
+                    buttonText: '${wordProvider.chosenWord.wrongAnswer}',
                     onPressed: () => {navigateToFinish(context, riddleNumber)}),
                 Expanded(
                   child: Container(),
