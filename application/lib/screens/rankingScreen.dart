@@ -2,6 +2,7 @@ import 'package:application/theming/myColors.dart';
 import 'package:application/utils/userScore.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,18 +14,23 @@ class RankingScreen extends StatefulWidget {
 }
 
 class _RankingScreenState extends State<RankingScreen> {
-  List<UserScore> scores = [
-    UserScore(),
-    UserScore(),
-    UserScore(),
-    UserScore(),
-    UserScore(),
-    UserScore(),
-    UserScore(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    Future<List<UserScore>> getData() async {
+      QuerySnapshot querySnapshot =
+          await users.orderBy('points', descending: true).get();
+      final allData = querySnapshot.docs
+          .map((doc) => UserScore.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
+
+      print(allData);
+
+      return allData;
+    }
+
+    String testId = "4rOfyEFpfgoVxojMEXdO";
     return Container(
         color: MyColors().myAmber,
         child: Column(
@@ -123,23 +129,92 @@ class _RankingScreenState extends State<RankingScreen> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                return Card(
-                                  child: ListTile(
-                                    onTap: () {},
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(scores[index].id.toString()),
-                                        Text(scores[index].userName),
-                                        Text(scores[index].score.toString()),
-                                      ],
+                            child: FutureBuilder<List<UserScore>>(
+                              future: getData(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<List<UserScore>> snapshot) {
+                                if (snapshot.hasError) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: Text(
+                                          "WYSTĄPIŁ PROBLEM",
+                                          style: GoogleFonts.mcLaren(
+                                            color: Colors.black,
+                                            fontSize: 32,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                  ;
+                                }
+                                if (snapshot.hasData &&
+                                    snapshot.data!.length == 0) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: Text(
+                                          "DOKUMENT NIE ISTNIEJE",
+                                          style: GoogleFonts.mcLaren(
+                                            color: Colors.black,
+                                            fontSize: 32,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return ListView.builder(
+                                    itemCount: snapshot.data!.length,
+                                    itemBuilder: (context, index) {
+                                      return Card(
+                                        child: ListTile(
+                                          onTap: () {},
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text((index + 1).toString()),
+                                              Text(snapshot
+                                                  .data![index].nickname),
+                                              Text(snapshot.data![index].points
+                                                  .toString()),
+                                            ],
+                                          ),
+                                        ),
+                                        // title: Text(scores[index].userName)),
+                                      );
+                                    },
+                                  );
+                                }
+                                return Expanded(
+                                    child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: Text(
+                                        "ŁADOWANIE",
+                                        style: GoogleFonts.mcLaren(
+                                          color: Colors.black,
+                                          fontSize: 32,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  // title: Text(scores[index].userName)),
-                                );
+                                  ],
+                                ));
                               },
                             ),
                           ),

@@ -3,6 +3,7 @@ import 'package:application/theming/myColors.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:application/widgets/myTextField.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,6 +14,22 @@ class FinishScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    String nickname = '';
+
+    Future<void> addUser() {
+      if (nickname == "") {
+        nickname = 'DefaultUser';
+      }
+      return users
+          .add({
+            'nickname': nickname,
+            'points': (riddleNumber - 1),
+          })
+          .then((value) => print('User added.'))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+
     return Container(
       color: MyColors().myAmber,
       child: Column(
@@ -60,7 +77,11 @@ class FinishScreen extends StatelessWidget {
             width: 500,
             child: Material(
               color: Colors.transparent,
-              child: MyTextField(),
+              child: MyTextField(
+                onChange: (text) {
+                  nickname = text;
+                },
+              ),
             ),
           ),
           Expanded(
@@ -68,7 +89,10 @@ class FinishScreen extends StatelessWidget {
           ),
           MyButton(
               buttonText: 'Kontynuuj',
-              onPressed: () => {navigateToRanking(context)}),
+              onPressed: () {
+                addUser();
+                navigateToRanking(context);
+              }),
           Expanded(
             child: Container(),
           ),
@@ -79,5 +103,5 @@ class FinishScreen extends StatelessWidget {
 }
 
 void navigateToRanking(BuildContext context) {
-  context.router.navigateNamed('/ranking-screen');
+  context.router.pushNamed('/ranking-screen');
 }
