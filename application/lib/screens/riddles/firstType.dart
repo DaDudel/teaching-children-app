@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:math';
 
 import 'package:application/routes/approuter.gr.dart';
@@ -11,9 +12,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class FirstType extends StatelessWidget {
-  const FirstType({Key? key, this.riddleNumber = 1}) : super(key: key);
+  const FirstType({Key? key, this.riddleNumber = 1, this.trainingMode = 0})
+      : super(key: key);
 
   final int riddleNumber;
+  final int trainingMode;
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +77,9 @@ class FirstType extends StatelessWidget {
                         wordProvider.chosenWord.riddle.replaceAll(
                             '_', wordProvider.chosenWord.rightAnswer)) {
                   wordProvider.randomWord();
-                  navigateToRiddles(context, riddleNumber);
+                  navigateToRiddles(context, riddleNumber, trainingMode);
                 } else {
-                  navigateToFinish(context, riddleNumber);
+                  navigateToFinish(context, riddleNumber, trainingMode);
                 }
               }),
           Expanded(
@@ -88,9 +91,13 @@ class FirstType extends StatelessWidget {
   }
 }
 
-void navigateToRiddles(BuildContext context, int riddle) {
+void navigateToRiddles(BuildContext context, int riddle, int training) {
+  if (training == 1) {
+    context.router.push(FirstRiddle(riddleNumber: riddle + 1, trainingMode: 1));
+    return;
+  }
   Random random = new Random();
-  int randomNumber = random.nextInt(3);
+  int randomNumber = random.nextInt(4);
   switch (randomNumber) {
     case 0:
       {
@@ -107,9 +114,18 @@ void navigateToRiddles(BuildContext context, int riddle) {
         context.router.push(ThirdRiddle(riddleNumber: riddle + 1));
       }
       break;
+    case 3:
+      {
+        context.router.push(FourthRiddle(riddleNumber: riddle + 1));
+      }
+      break;
   }
 }
 
-void navigateToFinish(BuildContext context, int riddle) {
+void navigateToFinish(BuildContext context, int riddle, int training) {
+  if (training == 1) {
+    context.router.push(FinishTraining(riddleNumber: riddle));
+    return;
+  }
   context.router.push(Finish(riddleNumber: riddle));
 }

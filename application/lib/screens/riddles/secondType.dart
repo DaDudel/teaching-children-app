@@ -11,9 +11,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SecondType extends StatelessWidget {
-  const SecondType({Key? key, this.riddleNumber = 1}) : super(key: key);
+  const SecondType({Key? key, this.riddleNumber = 1, this.trainingMode = 0})
+      : super(key: key);
 
   final int riddleNumber;
+  final int trainingMode;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,9 @@ class SecondType extends StatelessWidget {
                 ),
                 MyButton(
                     buttonText: '${wordProvider.chosenWord.wrongAnswer}',
-                    onPressed: () => {navigateToFinish(context, riddleNumber)}),
+                    onPressed: () => {
+                          navigateToFinish(context, riddleNumber, trainingMode)
+                        }),
                 Expanded(
                   child: Container(),
                 ),
@@ -69,7 +73,7 @@ class SecondType extends StatelessWidget {
                     buttonText: '${wordProvider.chosenWord.rightAnswer}',
                     onPressed: () {
                       wordProvider.randomWord();
-                      navigateToRiddles(context, riddleNumber);
+                      navigateToRiddles(context, riddleNumber, trainingMode);
                     }),
                 Expanded(
                   child: Container(),
@@ -82,14 +86,16 @@ class SecondType extends StatelessWidget {
                     buttonText: '${wordProvider.chosenWord.rightAnswer}',
                     onPressed: () {
                       wordProvider.randomWord();
-                      navigateToRiddles(context, riddleNumber);
+                      navigateToRiddles(context, riddleNumber, trainingMode);
                     }),
                 Expanded(
                   child: Container(),
                 ),
                 MyButton(
                     buttonText: '${wordProvider.chosenWord.wrongAnswer}',
-                    onPressed: () => {navigateToFinish(context, riddleNumber)}),
+                    onPressed: () => {
+                          navigateToFinish(context, riddleNumber, trainingMode)
+                        }),
                 Expanded(
                   child: Container(),
                 ),
@@ -105,9 +111,14 @@ class SecondType extends StatelessWidget {
   }
 }
 
-void navigateToRiddles(BuildContext context, int riddle) {
+void navigateToRiddles(BuildContext context, int riddle, int training) {
+  if (training == 1) {
+    context.router
+        .push(SecondRiddle(riddleNumber: riddle + 1, trainingMode: 1));
+    return;
+  }
   Random random = new Random();
-  int randomNumber = random.nextInt(3);
+  int randomNumber = random.nextInt(4);
   switch (randomNumber) {
     case 0:
       {
@@ -124,9 +135,18 @@ void navigateToRiddles(BuildContext context, int riddle) {
         context.router.push(ThirdRiddle(riddleNumber: riddle + 1));
       }
       break;
+    case 3:
+      {
+        context.router.push(FourthRiddle(riddleNumber: riddle + 1));
+      }
+      break;
   }
 }
 
-void navigateToFinish(BuildContext context, int riddle) {
+void navigateToFinish(BuildContext context, int riddle, int training) {
+  if (training == 1) {
+    context.router.push(FinishTraining(riddleNumber: riddle));
+    return;
+  }
   context.router.push(Finish(riddleNumber: riddle));
 }

@@ -25,12 +25,10 @@ class _RankingScreenState extends State<RankingScreen> {
           .map((doc) => UserScore.fromJson(doc.data() as Map<String, dynamic>))
           .toList();
 
-      print(allData);
-
       return allData;
     }
 
-    String testId = "4rOfyEFpfgoVxojMEXdO";
+    int place = 0;
     return Container(
         color: MyColors().myAmber,
         child: Column(
@@ -178,6 +176,13 @@ class _RankingScreenState extends State<RankingScreen> {
                                   return ListView.builder(
                                     itemCount: snapshot.data!.length,
                                     itemBuilder: (context, index) {
+                                      place++;
+                                      if (index > 0 &&
+                                          snapshot.data![index].points ==
+                                              snapshot
+                                                  .data![index - 1].points) {
+                                        place--;
+                                      }
                                       return Card(
                                         child: ListTile(
                                           onTap: () {},
@@ -185,7 +190,7 @@ class _RankingScreenState extends State<RankingScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text((index + 1).toString()),
+                                              Text((place).toString()),
                                               Text(snapshot
                                                   .data![index].nickname),
                                               Text(snapshot.data![index].points

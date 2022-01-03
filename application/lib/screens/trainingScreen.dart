@@ -22,57 +22,14 @@ import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class TrainingScreen extends StatefulWidget {
+  const TrainingScreen({Key? key}) : super(key: key);
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<TrainingScreen> createState() => _TrainingScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  // firebase_storage.FirebaseStorage storage =
-  //     firebase_storage.FirebaseStorage.instance;
-  // firebase_storage.Reference ref =
-  //     firebase_storage.FirebaseStorage.instance.ref('/slowka.csv');
-
-  void downloadCSV() async {
-    String downloadAdress =
-        'https://raw.githubusercontent.com/DaDudel/3d-labs/main/slowka.csv';
-    final response = await http.get(Uri.parse(downloadAdress));
-
-    List<Word> words2 = [];
-
-    response.body.split('\n').forEach((element) {
-      List<String> verse = element.split(';');
-      if (verse.length == 4) {
-        words2.add(Word(int.parse(verse[0]), verse[1], verse[2], verse[3]));
-      }
-    });
-
-    print(words2[0].riddle);
-  }
-
-  Future<List<Word>> getTheList() async {
-    String downloadAdress =
-        'https://raw.githubusercontent.com/DaDudel/3d-labs/main/slowka.csv';
-    final response = await http.get(Uri.parse(downloadAdress));
-
-    List<Word> words2 = [];
-
-    response.body.split('\n').forEach((element) {
-      List<String> verse = element.split(';');
-      if (verse.length == 4) {
-        verse[3].replaceAll('\n', '');
-        verse[3].replaceAll(' ', '');
-        words2.add(Word(int.parse(verse[0]), verse[1], verse[2], verse[3]));
-      }
-    });
-
-    //print(words2[0].riddle);
-
-    return words2;
-  }
-
+class _TrainingScreenState extends State<TrainingScreen> {
   @override
   Widget build(BuildContext context) {
     WordProvider wordProvider = Provider.of<WordProvider>(context);
@@ -86,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
               color: Colors.transparent,
               child: Container(
                 padding: EdgeInsets.all(16),
-                child: Text('Naucz się ortografii!',
+                child: Text('TRYB TRENINGOWY',
                     style: GoogleFonts.mcLaren(
                       fontSize: 64,
                     )),
@@ -98,27 +55,35 @@ class _MainScreenState extends State<MainScreen> {
             Container(
                 padding: EdgeInsets.all(16.0),
                 child: MyButton(
-                  buttonText: 'start',
+                  buttonText: 'zagadka #1',
                   onPressed: () async {
-                    wordProvider.updateList(await getTheList());
-                    wordProvider.randomWord();
-                    navigateToRiddles(context);
+                    navigateToFirst(context);
                   },
                 )),
             Container(
                 padding: EdgeInsets.all(16.0),
                 child: MyButton(
-                    buttonText: 'trening',
-                    onPressed: () async {
-                      wordProvider.updateList(await getTheList());
-                      wordProvider.randomWord();
-                      navigateToTraining(context);
+                    buttonText: 'zagadka #2',
+                    onPressed: () {
+                      navigateToSecond(context);
                     })),
             Container(
                 padding: EdgeInsets.all(16.0),
                 child: MyButton(
-                  buttonText: 'ranking',
-                  onPressed: () => {navigateToRanking(context)},
+                  buttonText: 'zagadka #3',
+                  onPressed: () => {navigateToThird(context)},
+                )),
+            Container(
+                padding: EdgeInsets.all(16.0),
+                child: MyButton(
+                  buttonText: 'zagadka #4',
+                  onPressed: () => {navigateToFourth(context)},
+                )),
+            Container(
+                padding: EdgeInsets.all(16.0),
+                child: MyButton(
+                  buttonText: 'powrót',
+                  onPressed: () => {navigateToMenu(context)},
                 )),
             Expanded(
               child: Container(),
@@ -162,6 +127,22 @@ void navigateToRanking(BuildContext context) {
   context.router.pushNamed('/ranking-screen');
 }
 
-void navigateToTraining(BuildContext context) {
-  context.router.push(Training());
+void navigateToMenu(BuildContext context) {
+  context.router.navigateNamed('/');
+}
+
+void navigateToFirst(BuildContext context) {
+  context.router.push(FirstRiddle(riddleNumber: 1, trainingMode: 1));
+}
+
+void navigateToSecond(BuildContext context) {
+  context.router.push(SecondRiddle(riddleNumber: 1, trainingMode: 1));
+}
+
+void navigateToThird(BuildContext context) {
+  context.router.push(ThirdRiddle(riddleNumber: 1, trainingMode: 1));
+}
+
+void navigateToFourth(BuildContext context) {
+  context.router.push(FourthRiddle(riddleNumber: 1, trainingMode: 1));
 }

@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class ThirdType extends StatelessWidget {
-  const ThirdType({Key? key, this.riddleNumber = 1, this.trainingMode = 0})
+class FourthType extends StatelessWidget {
+  const FourthType({Key? key, this.riddleNumber = 1, this.trainingMode = 0})
       : super(key: key);
 
   final int riddleNumber;
@@ -50,12 +50,35 @@ class ThirdType extends StatelessWidget {
             color: Colors.transparent,
             child: Container(
               padding: EdgeInsets.all(16),
-              child: Text('WYBIERZ POPRAWNY ZAPIS WYRAZU',
-                  style: GoogleFonts.mcLaren(
-                    fontSize: 48,
-                  )),
+              child: Container(
+                child: Text('CZY PODANY WYRAZ ZAPISANY JEST POPRAWNIE?',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.mcLaren(
+                      fontSize: 48,
+                    )),
+              ),
             ),
           ),
+          Expanded(
+            child: Container(),
+          ),
+          if (randomNumber == 0) ...[
+            Material(
+              color: Colors.transparent,
+              child: Text(rightWord,
+                  style: GoogleFonts.mcLaren(
+                    fontSize: 64,
+                  )),
+            ),
+          ] else ...[
+            Material(
+              color: Colors.transparent,
+              child: Text(wrongWord,
+                  style: GoogleFonts.mcLaren(
+                    fontSize: 64,
+                  )),
+            ),
+          ],
           Expanded(
             child: Container(),
           ),
@@ -69,19 +92,19 @@ class ThirdType extends StatelessWidget {
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: '${wrongWord}',
-                    onPressed: () => {
-                          navigateToFinish(context, riddleNumber, trainingMode)
-                        }),
-                Expanded(
-                  child: Container(),
-                ),
-                MyButton(
-                    buttonText: '${rightWord}',
+                    buttonText: 'TAK',
                     onPressed: () {
                       wordProvider.randomWord();
                       navigateToRiddles(context, riddleNumber, trainingMode);
                     }),
+                Expanded(
+                  child: Container(),
+                ),
+                MyButton(
+                    buttonText: 'NIE',
+                    onPressed: () => {
+                          navigateToFinish(context, riddleNumber, trainingMode)
+                        }),
                 Expanded(
                   child: Container(),
                 ),
@@ -90,19 +113,19 @@ class ThirdType extends StatelessWidget {
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: '${rightWord}',
-                    onPressed: () {
-                      wordProvider.randomWord();
-                      navigateToRiddles(context, riddleNumber, trainingMode);
-                    }),
+                    buttonText: 'TAK',
+                    onPressed: () => {
+                          navigateToFinish(context, riddleNumber, trainingMode)
+                        }),
                 Expanded(
                   child: Container(),
                 ),
                 MyButton(
-                    buttonText: '${wrongWord}',
-                    onPressed: () => {
-                          navigateToFinish(context, riddleNumber, trainingMode)
-                        }),
+                    buttonText: 'NIE',
+                    onPressed: () {
+                      wordProvider.randomWord();
+                      navigateToRiddles(context, riddleNumber, trainingMode);
+                    }),
                 Expanded(
                   child: Container(),
                 ),
@@ -120,7 +143,8 @@ class ThirdType extends StatelessWidget {
 
 void navigateToRiddles(BuildContext context, int riddle, int training) {
   if (training == 1) {
-    context.router.push(ThirdRiddle(riddleNumber: riddle + 1, trainingMode: 1));
+    context.router
+        .push(FourthRiddle(riddleNumber: riddle + 1, trainingMode: 1));
     return;
   }
   Random random = new Random();
