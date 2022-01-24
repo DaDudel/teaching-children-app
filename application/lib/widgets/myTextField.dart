@@ -9,7 +9,10 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var msgController = TextEditingController();
+    msgController.clear();
     return TextFormField(
+      controller: msgController,
       style: GoogleFonts.mcLaren(
         fontSize: 48,
       ),

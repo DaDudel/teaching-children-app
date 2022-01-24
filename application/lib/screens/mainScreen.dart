@@ -54,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<List<Word>> getTheList() async {
     String downloadAdress =
-        'https://raw.githubusercontent.com/DaDudel/3d-labs/main/slowka.csv';
+        'https://raw.githubusercontent.com/DaDudel/slowka-csv/main/slowka.csv';
     final response = await http.get(Uri.parse(downloadAdress));
 
     List<Word> words2 = [];
@@ -67,8 +67,6 @@ class _MainScreenState extends State<MainScreen> {
         words2.add(Word(int.parse(verse[0]), verse[1], verse[2], verse[3]));
       }
     });
-
-    //print(words2[0].riddle);
 
     return words2;
   }

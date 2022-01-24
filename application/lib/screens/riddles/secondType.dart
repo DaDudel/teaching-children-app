@@ -114,7 +114,7 @@ class SecondType extends StatelessWidget {
 void navigateToRiddles(BuildContext context, int riddle, int training) {
   if (training == 1) {
     context.router
-        .push(SecondRiddle(riddleNumber: riddle + 1, trainingMode: 1));
+        .replace(SecondRiddle(riddleNumber: riddle + 1, trainingMode: 1));
     return;
   }
   Random random = new Random();
@@ -122,22 +122,22 @@ void navigateToRiddles(BuildContext context, int riddle, int training) {
   switch (randomNumber) {
     case 0:
       {
-        context.router.push(FirstRiddle(riddleNumber: riddle + 1));
+        context.router.replace(FirstRiddle(riddleNumber: riddle + 1));
       }
       break;
     case 1:
       {
-        context.router.push(SecondRiddle(riddleNumber: riddle + 1));
+        context.router.replace(SecondRiddle(riddleNumber: riddle + 1));
       }
       break;
     case 2:
       {
-        context.router.push(ThirdRiddle(riddleNumber: riddle + 1));
+        context.router.replace(ThirdRiddle(riddleNumber: riddle + 1));
       }
       break;
     case 3:
       {
-        context.router.push(FourthRiddle(riddleNumber: riddle + 1));
+        context.router.replace(FourthRiddle(riddleNumber: riddle + 1));
       }
       break;
   }
@@ -145,8 +145,8 @@ void navigateToRiddles(BuildContext context, int riddle, int training) {
 
 void navigateToFinish(BuildContext context, int riddle, int training) {
   if (training == 1) {
-    context.router.push(FinishTraining(riddleNumber: riddle));
+    context.router.replace(FinishTraining(riddleNumber: riddle));
     return;
   }
-  context.router.push(Finish(riddleNumber: riddle));
+  context.router.replace(Finish(riddleNumber: riddle));
 }

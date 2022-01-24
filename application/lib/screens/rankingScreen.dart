@@ -48,170 +48,95 @@ class _RankingScreenState extends State<RankingScreen> {
             ),
             Container(
               height: 400,
-              child: Expanded(
-                child: Column(
-                  children: [
-                    Expanded(
-                      //flex: 2,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 11.0,
-                                spreadRadius: 0.0,
-                                offset: Offset(0.0, 4.0),
-                              ),
-                            ],
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                            color: MyColors().secondaryColor,
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            textStyle: TextStyle(color: Colors.white),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Pozycja',
-                                    style: GoogleFonts.mcLaren(
-                                      fontSize: 16,
-                                    ),
+              child: Column(
+                children: [
+                  Expanded(
+                    //flex: 2,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 11.0,
+                              spreadRadius: 0.0,
+                              offset: Offset(0.0, 4.0),
+                            ),
+                          ],
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: MyColors().secondaryColor,
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          textStyle: TextStyle(color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Pozycja',
+                                  style: GoogleFonts.mcLaren(
+                                    fontSize: 16,
                                   ),
-                                  Text(
-                                    'Pseudonim',
-                                    style: GoogleFonts.mcLaren(
-                                      fontSize: 16,
-                                    ),
+                                ),
+                                Text(
+                                  'Pseudonim',
+                                  style: GoogleFonts.mcLaren(
+                                    fontSize: 16,
                                   ),
-                                  Text(
-                                    'Punkty',
-                                    style: GoogleFonts.mcLaren(
-                                      fontSize: 16,
-                                    ),
+                                ),
+                                Text(
+                                  'Punkty',
+                                  style: GoogleFonts.mcLaren(
+                                    fontSize: 16,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 4,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 11.0,
-                                spreadRadius: 0.0,
-                                offset: Offset(0.0, 4.0),
-                              ),
-                            ],
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(15),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: FutureBuilder<List<UserScore>>(
-                              future: getData(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<List<UserScore>> snapshot) {
-                                if (snapshot.hasError) {
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Material(
-                                        color: Colors.transparent,
-                                        child: Text(
-                                          "WYSTĄPIŁ PROBLEM",
-                                          style: GoogleFonts.mcLaren(
-                                            color: Colors.black,
-                                            fontSize: 32,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                  ;
-                                }
-                                if (snapshot.hasData &&
-                                    snapshot.data!.length == 0) {
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Material(
-                                        color: Colors.transparent,
-                                        child: Text(
-                                          "DOKUMENT NIE ISTNIEJE",
-                                          style: GoogleFonts.mcLaren(
-                                            color: Colors.black,
-                                            fontSize: 32,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                }
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  return ListView.builder(
-                                    itemCount: snapshot.data!.length,
-                                    itemBuilder: (context, index) {
-                                      place++;
-                                      if (index > 0 &&
-                                          snapshot.data![index].points ==
-                                              snapshot
-                                                  .data![index - 1].points) {
-                                        place--;
-                                      }
-                                      return Card(
-                                        child: ListTile(
-                                          onTap: () {},
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text((place).toString()),
-                                              Text(snapshot
-                                                  .data![index].nickname),
-                                              Text(snapshot.data![index].points
-                                                  .toString()),
-                                            ],
-                                          ),
-                                        ),
-                                        // title: Text(scores[index].userName)),
-                                      );
-                                    },
-                                  );
-                                }
-                                return Expanded(
-                                    child: Row(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 11.0,
+                              spreadRadius: 0.0,
+                              offset: Offset(0.0, 4.0),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: FutureBuilder<List<UserScore>>(
+                            future: getData(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<List<UserScore>> snapshot) {
+                              if (snapshot.hasError) {
+                                return Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Material(
                                       color: Colors.transparent,
                                       child: Text(
-                                        "ŁADOWANIE",
+                                        "WYSTĄPIŁ PROBLEM",
                                         style: GoogleFonts.mcLaren(
                                           color: Colors.black,
                                           fontSize: 32,
@@ -219,15 +144,90 @@ class _RankingScreenState extends State<RankingScreen> {
                                       ),
                                     ),
                                   ],
-                                ));
-                              },
-                            ),
+                                );
+                                ;
+                              }
+                              if (snapshot.hasData &&
+                                  snapshot.data!.length == 0) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: Text(
+                                        "NIEPOPRAWNE DANE",
+                                        style: GoogleFonts.mcLaren(
+                                          color: Colors.black,
+                                          fontSize: 32,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return ListView.builder(
+                                  cacheExtent: double.infinity,
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder: (context, index) {
+                                    place++;
+                                    if (index > 0 &&
+                                        snapshot.data![index].points ==
+                                            snapshot.data![index - 1].points) {
+                                      place--;
+                                    }
+                                    return Card(
+                                      child: ListTile(
+                                        onTap: () {},
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text((place).toString()),
+                                            Text(
+                                                snapshot.data![index].nickname),
+                                            Text(snapshot.data![index].points
+                                                .toString()),
+                                          ],
+                                        ),
+                                      ),
+                                      // title: Text(scores[index].userName)),
+                                    );
+                                  },
+                                );
+                              }
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: Text(
+                                          "ŁADOWANIE",
+                                          style: GoogleFonts.mcLaren(
+                                            color: Colors.black,
+                                            fontSize: 32,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Expanded(
