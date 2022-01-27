@@ -52,7 +52,7 @@ class ThirdType extends StatelessWidget {
               padding: EdgeInsets.all(16),
               child: Text('WYBIERZ POPRAWNY ZAPIS WYRAZU',
                   style: GoogleFonts.mcLaren(
-                    fontSize: 48,
+                    fontSize: 32,
                   )),
             ),
           ),

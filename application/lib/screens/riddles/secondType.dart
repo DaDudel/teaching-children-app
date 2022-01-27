@@ -43,6 +43,22 @@ class SecondType extends StatelessWidget {
             color: Colors.transparent,
             child: Container(
               padding: EdgeInsets.all(16),
+              child: Text('UZUPEŁNIJ WYRAZ POPRAWNĄ GŁOSKĄ',
+                  style: GoogleFonts.mcLaren(
+                    fontSize: 32,
+                  )),
+            ),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: Container(
+              padding: EdgeInsets.all(16),
               child: Text('${wordProvider.chosenWord.riddle}',
                   style: GoogleFonts.mcLaren(
                     fontSize: 48,

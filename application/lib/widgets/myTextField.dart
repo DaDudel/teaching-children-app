@@ -12,6 +12,7 @@ class MyTextField extends StatelessWidget {
     var msgController = TextEditingController();
     msgController.clear();
     return TextFormField(
+      autofocus: true,
       controller: msgController,
       style: GoogleFonts.mcLaren(
         fontSize: 48,
@@ -20,6 +21,7 @@ class MyTextField extends StatelessWidget {
         filled: false,
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
+            width: 2,
             color: MyColors().secondaryColor,
           ),
         ),

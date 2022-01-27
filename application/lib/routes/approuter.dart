@@ -2,6 +2,7 @@ import 'package:application/screens/finishScreen.dart';
 import 'package:application/screens/finishTrainingScreen.dart';
 import 'package:application/screens/mainScreen.dart';
 import 'package:application/screens/rankingScreen.dart';
+import 'package:application/screens/rankingScreenAfterGame.dart';
 import 'package:application/screens/riddles/firstType.dart';
 import 'package:application/screens/riddles/fourthType.dart';
 import 'package:application/screens/riddles/secondType.dart';
@@ -20,6 +21,7 @@ import 'package:auto_route/annotations.dart';
     AutoRoute(page: FourthType, name: 'FourthRiddle'),
     AutoRoute(page: TrainingScreen, name: 'Training'),
     AutoRoute(page: FinishTrainingScreen, name: 'FinishTraining'),
+    AutoRoute(page: RankingScreenAfterGame, name: 'RankingAfterGame'),
   ],
 )
 class $AppRouter {}

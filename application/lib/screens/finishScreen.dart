@@ -1,5 +1,7 @@
+import 'package:application/routes/approuter.gr.dart';
 import 'package:application/screens/mainScreen.dart';
 import 'package:application/theming/myColors.dart';
+import 'package:application/utils/userScore.dart';
 import 'package:application/widgets/myButton.dart';
 import 'package:application/widgets/myTextField.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
@@ -18,9 +20,6 @@ class FinishScreen extends StatelessWidget {
     String nickname = '';
 
     Future<void> addUser() {
-      if (nickname == "") {
-        nickname = 'DefaultUser';
-      }
       return users
           .add({
             'nickname': nickname,
@@ -90,8 +89,11 @@ class FinishScreen extends StatelessWidget {
           MyButton(
               buttonText: 'Kontynuuj',
               onPressed: () {
-                addUser();
-                navigateToRanking(context);
+                if (nickname.isNotEmpty) {
+                  addUser();
+                }
+                UserScore newUser = UserScore(nickname, riddleNumber - 1);
+                navigateToRanking(context, newUser);
               }),
           Expanded(
             child: Container(),
@@ -102,6 +104,6 @@ class FinishScreen extends StatelessWidget {
   }
 }
 
-void navigateToRanking(BuildContext context) {
-  context.router.pushNamed('/ranking-screen');
+void navigateToRanking(BuildContext context, UserScore userScore) {
+  context.router.replace(RankingAfterGame(userScore: userScore));
 }

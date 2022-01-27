@@ -54,7 +54,7 @@ class FourthType extends StatelessWidget {
                 child: Text('CZY PODANY WYRAZ ZAPISANY JEST POPRAWNIE?',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mcLaren(
-                      fontSize: 48,
+                      fontSize: 32,
                     )),
               ),
             ),

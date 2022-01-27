@@ -4,16 +4,19 @@ import 'package:application/widgets/myButton.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:application/utils/userScoreWithPos.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RankingScreen extends StatefulWidget {
-  const RankingScreen({Key? key}) : super(key: key);
+class RankingScreenAfterGame extends StatelessWidget {
+  const RankingScreenAfterGame({Key? key, required this.userScore})
+      : super(key: key);
 
-  @override
-  _RankingScreenState createState() => _RankingScreenState();
-}
+  final UserScore userScore;
+//   @override
+//   _RankingScreenAfterGameState createState() => _RankingScreenAfterGameState();
+// }
 
-class _RankingScreenState extends State<RankingScreen> {
+// class _RankingScreenAfterGameState extends State<RankingScreenAfterGame> {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -169,37 +172,57 @@ class _RankingScreenState extends State<RankingScreen> {
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
                                 var length = snapshot.data!.length;
-                                var fixedLength = 0;
-                                if (length > 100) {
-                                  for (int i = 0; i < length; i++) {
-                                    if (i == 101) {
-                                      break;
-                                    }
-                                    fixedLength++;
-                                    if (i > 0 &&
-                                        snapshot.data![i].points ==
-                                            snapshot.data![i - 1].points) {
-                                      fixedLength++;
-                                    }
+
+                                var pos = 0;
+                                List<UserScoreWithPos> scoresWithPos = [];
+                                for (int i = 0; i < length; i++) {
+                                  pos++;
+                                  if (i > 0 &&
+                                      snapshot.data![i].points ==
+                                          snapshot.data![i - 1].points) {
+                                    pos--;
                                   }
-                                  if (fixedLength > length) {
-                                    fixedLength = length;
-                                  }
-                                } else {
-                                  fixedLength = length;
+                                  scoresWithPos.add(new UserScoreWithPos(
+                                      pos,
+                                      snapshot.data![i].nickname,
+                                      snapshot.data![i].points));
                                 }
+                                UserScoreWithPos playerScore =
+                                    UserScoreWithPos(-1, 'ERROR', -1);
+                                for (UserScoreWithPos element
+                                    in scoresWithPos) {
+                                  if (element.nickname == userScore.nickname &&
+                                      element.points == userScore.points) {
+                                    playerScore.position = element.position;
+                                    playerScore.nickname = element.nickname;
+                                    playerScore.points = element.points;
+                                    break;
+                                  }
+                                }
+                                for (int i = 0; i < scoresWithPos.length; i++) {
+                                  if (scoresWithPos[i].position > 10) {
+                                    scoresWithPos.removeRange(
+                                        i, scoresWithPos.length);
+                                    break;
+                                  }
+                                }
+                                // scoresWithPos.forEach((element) {
+                                //   print(element.position.toString() +
+                                //       ' ' +
+                                //       element.nickname +
+                                //       ' ' +
+                                //       element.points.toString());
+                                // });
+
+                                if (playerScore.position > 10) {
+                                  scoresWithPos.add(playerScore);
+                                }
+
+                                var fixedLength = scoresWithPos.length;
                                 return ListView.builder(
                                   cacheExtent: double.infinity,
-                                  //itemCount: snapshot.data!.length,
                                   itemCount: fixedLength,
                                   itemBuilder: (context, index) {
-                                    place++;
-                                    if (index > 0 &&
-                                        snapshot.data![index].points ==
-                                            snapshot.data![index - 1].points) {
-                                      place--;
-                                    }
-
                                     return Card(
                                       child: ListTile(
                                         onTap: () {},
@@ -207,10 +230,12 @@ class _RankingScreenState extends State<RankingScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text((place).toString()),
-                                            Text(
-                                                snapshot.data![index].nickname),
-                                            Text(snapshot.data![index].points
+                                            Text(scoresWithPos[index]
+                                                .position
+                                                .toString()),
+                                            Text(scoresWithPos[index].nickname),
+                                            Text(scoresWithPos[index]
+                                                .points
                                                 .toString()),
                                           ],
                                         ),
