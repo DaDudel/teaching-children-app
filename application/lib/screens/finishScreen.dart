@@ -105,5 +105,6 @@ class FinishScreen extends StatelessWidget {
 }
 
 void navigateToRanking(BuildContext context, UserScore userScore) {
-  context.router.replace(RankingAfterGame(userScore: userScore));
+  context.router.replace(
+      RankingAfterGame(nickname: userScore.nickname, points: userScore.points));
 }

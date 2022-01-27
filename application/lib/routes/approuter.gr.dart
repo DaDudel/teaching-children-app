@@ -21,7 +21,6 @@ import '../screens/riddles/fourthType.dart' as _i7;
 import '../screens/riddles/secondType.dart' as _i4;
 import '../screens/riddles/thirdType.dart' as _i5;
 import '../screens/trainingScreen.dart' as _i8;
-import '../utils/userScore.dart' as _i13;
 
 class AppRouter extends _i11.RootStackRouter {
   AppRouter([_i12.GlobalKey<_i12.NavigatorState>? navigatorKey])
@@ -98,11 +97,12 @@ class AppRouter extends _i11.RootStackRouter {
               key: args.key, riddleNumber: args.riddleNumber));
     },
     RankingAfterGame.name: (routeData) {
-      final args = routeData.argsAs<RankingAfterGameArgs>();
+      final args = routeData.argsAs<RankingAfterGameArgs>(
+          orElse: () => const RankingAfterGameArgs());
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData,
           child: _i10.RankingScreenAfterGame(
-              key: args.key, userScore: args.userScore));
+              key: args.key, nickname: args.nickname, points: args.points));
     }
   };
 
@@ -318,23 +318,26 @@ class FinishTrainingArgs {
 /// generated route for
 /// [_i10.RankingScreenAfterGame]
 class RankingAfterGame extends _i11.PageRouteInfo<RankingAfterGameArgs> {
-  RankingAfterGame({_i12.Key? key, required _i13.UserScore userScore})
+  RankingAfterGame({_i12.Key? key, String nickname = "", int points = -1})
       : super(RankingAfterGame.name,
             path: '/ranking-screen-after-game',
-            args: RankingAfterGameArgs(key: key, userScore: userScore));
+            args: RankingAfterGameArgs(
+                key: key, nickname: nickname, points: points));
 
   static const String name = 'RankingAfterGame';
 }
 
 class RankingAfterGameArgs {
-  const RankingAfterGameArgs({this.key, required this.userScore});
+  const RankingAfterGameArgs({this.key, this.nickname = "", this.points = -1});
 
   final _i12.Key? key;
 
-  final _i13.UserScore userScore;
+  final String nickname;
+
+  final int points;
 
   @override
   String toString() {
-    return 'RankingAfterGameArgs{key: $key, userScore: $userScore}';
+    return 'RankingAfterGameArgs{key: $key, nickname: $nickname, points: $points}';
   }
 }

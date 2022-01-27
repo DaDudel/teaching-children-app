@@ -8,10 +8,14 @@ import 'package:application/utils/userScoreWithPos.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RankingScreenAfterGame extends StatelessWidget {
-  const RankingScreenAfterGame({Key? key, required this.userScore})
-      : super(key: key);
+  const RankingScreenAfterGame({
+    Key? key,
+    this.nickname = "",
+    this.points = -1,
+  }) : super(key: key);
 
-  final UserScore userScore;
+  final String nickname;
+  final int points;
 //   @override
 //   _RankingScreenAfterGameState createState() => _RankingScreenAfterGameState();
 // }
@@ -20,6 +24,8 @@ class RankingScreenAfterGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    UserScore userScore = UserScore(nickname, points);
 
     Future<List<UserScore>> getData() async {
       QuerySnapshot querySnapshot =
@@ -31,7 +37,6 @@ class RankingScreenAfterGame extends StatelessWidget {
       return allData;
     }
 
-    int place = 0;
     return Container(
         color: MyColors().myAmber,
         child: Column(
